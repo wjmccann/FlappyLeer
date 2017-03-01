@@ -34,7 +34,7 @@ public class FlappyLeer extends ApplicationAdapter {
 
 	float birdY = 0;
 	float velocity = 0;
-	float gap = 400;
+	float gap = 600;
 	float maxTubeOffset;
 
 	float tubeVelocity = 4;
@@ -52,7 +52,7 @@ public class FlappyLeer extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		background = new Texture("bg.png");
-		bird = new Texture("bird.png");
+		bird = new Texture("turner.png");
 
 		topTube = new Texture("toptube.png");
 		bottomTube = new Texture("bottomtube.png");
