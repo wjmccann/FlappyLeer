@@ -2,6 +2,7 @@ package com.wjmccann.flappyleer;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,6 +22,8 @@ public class FlappyLeer extends ApplicationAdapter {
 	Texture topTube;
 	Texture bottomTube;
 	Texture gameover;
+	Texture title;
+	Sound sound;
 
 	Circle birdCircle;
 	ShapeRenderer shapeRenderer;
@@ -29,8 +32,10 @@ public class FlappyLeer extends ApplicationAdapter {
 
 	int score = 0;
 	int scoringTube = 0;
+	int highscore = 0;
 
 	BitmapFont font;
+	BitmapFont hsFont;
 
 	float birdY = 0;
 	float velocity = 0;
@@ -53,6 +58,8 @@ public class FlappyLeer extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		background = new Texture("bg.png");
 		bird = new Texture("turner.png");
+		title = new Texture("title.png");
+		sound = Gdx.audio.newSound(Gdx.files.internal("eh.mp3"));
 
 		topTube = new Texture("toptube.png");
 		bottomTube = new Texture("bottomtube.png");
@@ -65,9 +72,15 @@ public class FlappyLeer extends ApplicationAdapter {
 		topTubeRectangles = new Rectangle[numberOfTubes];
 		bottomTubeRectangles = new Rectangle[numberOfTubes];
 		shapeRenderer = new ShapeRenderer();
+
 		font = new BitmapFont();
 		font.setColor(Color.WHITE);
 		font.getData().setScale(10);
+
+		hsFont = new BitmapFont();
+		hsFont.setColor(Color.WHITE);
+		hsFont.getData().setScale(5);
+
 
 		startGame();
 
@@ -111,9 +124,7 @@ public class FlappyLeer extends ApplicationAdapter {
 
 			if (Gdx.input.justTouched()){
 				velocity = -20;
-
-
-
+				sound.play(1.0f);
 			}
 			for (int i=0; i<numberOfTubes; i++) {
 				 if (tubeX[i] < - topTube.getWidth()){
@@ -141,19 +152,21 @@ public class FlappyLeer extends ApplicationAdapter {
 			}
 
 		} else if (gameState == 0){
+			batch.draw(title, Gdx.graphics.getWidth() / 2 - title.getWidth() / 2, birdY + 600);
 			if (Gdx.input.justTouched()){
 				gameState = 1;
 			}
 		} else if (gameState == 2) {
 			batch.draw(gameover, Gdx.graphics.getWidth() / 2 - gameover.getWidth() / 2, Gdx.graphics.getHeight() / 2 - gameover.getHeight() /2);
-
+			if (score > highscore){
+				highscore = score;
+			}
 			if (Gdx.input.justTouched()){
-				gameState = 1;
+				gameState = 0;
 				startGame();
 				score = 0;
 				scoringTube = 0;
 				velocity = 0;
-
 			}
 		}
 
@@ -164,7 +177,11 @@ public class FlappyLeer extends ApplicationAdapter {
 
 		birdCircle.set(Gdx.graphics.getWidth() / 2, birdY + bird.getHeight() / 2, bird.getWidth() / 2);
 
-		font.draw(batch, String.valueOf(score), 100, 150);
+		font.draw(batch, String.valueOf(score),50, Gdx.graphics.getHeight() - 50 );
+
+		hsFont.draw(batch, "High Score:",50, 100 );
+
+		font.draw(batch, String.valueOf(highscore), 450, 150);
 
 		//shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		//shapeRenderer.setColor(Color.RED);
