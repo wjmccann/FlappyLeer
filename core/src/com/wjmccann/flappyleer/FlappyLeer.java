@@ -8,10 +8,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import java.util.Random;
 
@@ -30,12 +36,13 @@ public class FlappyLeer extends ApplicationAdapter {
 	Rectangle[] topTubeRectangles;
 	Rectangle[] bottomTubeRectangles;
 
-	int score = 0;
+	int score = 106;
 	int scoringTube = 0;
 	int highscore = 0;
 
 	BitmapFont font;
 	BitmapFont hsFont;
+	Label test;
 
 	float birdY = 0;
 	float velocity = 0;
@@ -81,7 +88,6 @@ public class FlappyLeer extends ApplicationAdapter {
 		hsFont.setColor(Color.WHITE);
 		hsFont.getData().setScale(5);
 
-
 		startGame();
 
 	}
@@ -126,6 +132,15 @@ public class FlappyLeer extends ApplicationAdapter {
 				velocity = -20;
 				sound.play(1.0f);
 			}
+
+			if (score == 5){
+				font.draw(batch, "5.56mm FMJ", Gdx.graphics.getWidth() / 2 - 400, Gdx.graphics.getHeight() / 2 + 600);
+			}
+
+			if (score == 16){
+				font.draw(batch, "A late 16", Gdx.graphics.getWidth() / 2 - 300, Gdx.graphics.getHeight() / 2 + 600);
+			}
+
 			for (int i=0; i<numberOfTubes; i++) {
 				 if (tubeX[i] < - topTube.getWidth()){
 
@@ -174,6 +189,9 @@ public class FlappyLeer extends ApplicationAdapter {
 
 		batch.draw(bird, Gdx.graphics.getWidth() / 2 - bird.getWidth() / 2, birdY);
 
+		if (score >= 106){
+			font.draw(batch, "+", Gdx.graphics.getWidth() / 2 - bird.getWidth() / 2, birdY + 50);
+		}
 
 		birdCircle.set(Gdx.graphics.getWidth() / 2, birdY + bird.getHeight() / 2, bird.getWidth() / 2);
 
